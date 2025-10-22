@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te amo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c003e 0%, #0f1b42 50%, #2c003e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Efectos de partículas para el fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 0, 50, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 50, 120, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 0, 80, 0.2) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Navegación principal */
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px 30px 0 0;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: none;
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-tab.active {
+            background: rgba(255, 255, 255, 0.95);
+            color: #8B0000;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B0000 0%, #4A0080 100%);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h2 {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .momentos-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        .momentos-img.active {
+            opacity: 1;
+        }
+
+        .message-container {
+            padding: 20px;
+            height: 250px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #8B0000 #f1f1f1;
+            background: rgba(255, 255, 255, 0.7);
+            margin: 0 10px;
+            border-radius: 10px;
+        }
+
+        .message-container.special {
+            background: linear-gradient(135deg, #fff5f5 0%, #f0fff4 100%);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4) 1;
+        }
+
+        .message-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .message-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .message-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #8B0000, #4A0080);
+            border-radius: 10px;
+        }
+
+        .message-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #8B0000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .message-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            text-align: justify;
+            padding-bottom: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            border-top: 1px solid rgba(139, 0, 0, 0.1);
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #8B0000 0%, #4A0080 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(139, 0, 0, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(139, 0, 0, 0.4);
+        }
+
+        .nav-btn.hidden {
+            display: none;
+        }
+
+        .nav-btn.secreto {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin: 0 5px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: linear-gradient(135deg, #8B0000, #4A0080);
+            transform: scale(1.2);
+        }
+
+        /* Estilos para los botones misteriosos */
+        .mystery-buttons-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .mystery-button {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #8B0000 0%, #4A0080 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mystery-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mystery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c003e 0%, #0f1b42 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.5s ease;
+            border-radius: 20px;
+        }
+
+        .mystery-button.revealed .mystery-overlay {
+            opacity: 0;
+            transform: scale(1.5);
+            pointer-events: none;
+        }
+
+        .button-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            padding: 0 5px;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .mystery-button.revealed .button-text {
+            opacity: 1;
+        }
+
+        /* Estilo para el check verde cuando se revela */
+        .check-verde {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #4CAF50;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .mystery-button.revealed .check-verde {
+            opacity: 1;
+        }
+
+        /* Efectos especiales para botones revelados - Versión simplificada */
+        .mystery-button.revealed[data-type="mensaje"] {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+        }
+
+        .mystery-button.revealed[data-type="imagen"] {
+            background: linear-gradient(135deg, #45B7D1 0%, #96CEB4 100%);
+        }
+
+        .mystery-button.revealed[data-type="audio"] {
+            background: linear-gradient(135deg, #FAD02E 0%, #FF8A65 100%);
+        }
+
+        /* Efecto de revelación simple */
+        .mystery-button.revealed {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 0 0 15px 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .image-container {
+                height: 180px;
+            }
+            
+            .message-container {
+                height: 220px;
+                padding: 15px;
+            }
+            
+            .nav-tab {
+                font-size: 13px;
+                padding: 10px 15px;
+            }
+            
+            .mystery-button {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .navigation {
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            
+            .nav-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav class="main-nav">
+        <button class="nav-tab active" data-section="momentos">Mis fotos favoritas de ti</button>
+        <button class="nav-tab" data-section="sorpresas">Sorpresitas</button>
+    </nav>
+
+    <!-- Sección Mis fotos favoritas de ti -->
+    <div class="container active" id="momentos-section">
+        <div class="header">
+            <h1>Usted si es linda dios mio</h1>
+            <h2>muamuamuamua</h2>
+        </div>
+        
+        <!-- CONTENEDOR CON TODAS LAS IMÁGENES -->
+        <div class="image-container">
+            <img id="img-0" class="momentos-img active" src="fotos/ella_gordita2.jpg" alt="Foto 1">
+            <img id="img-1" class="momentos-img" src="fotos/ella_zzz.jpg" alt="Foto 2">
+            <img id="img-2" class="momentos-img" src="fotos/foto_espejo.jpg" alt="Foto 3">
+            <img id="img-3" class="momentos-img" src="fotos/HERMOSA-convertido-a-333x180.jpeg" alt="Foto 4">
+        </div>
+        
+        <div class="dots">
+            <div class="dot active" data-index="0"></div>
+            <div class="dot" data-index="1"></div>
+            <div class="dot" data-index="2"></div>
+            <div class="dot" data-index="3"></div>
+        </div>
+        
+        <div class="message-container" id="momentos-messageContainer">
+            <div class="message-title">Tu si tienes una cara bella</div>
+            <div class="message-content">
+                Es increible que cada vez que te veo la carita tan linda que tienes SIEMPRE me dan ganas de darte muchisimos besitos, abrazos y decirte lo mucho que me gustas mi niña hermosa
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="momentos-prevBtn">Pa atras</button>
+            <button class="nav-btn" id="momentos-nextBtn">Pa alante</button>
+        </div>
+    </div>
+
+    <!-- Sección Sorpresas Especiales -->
+    <div class="container" id="sorpresas-section">
+        <div class="header">
+            <h1>Más que sorpresas, son mensajitos</h1>
+            <h2>Que siempre me gusta recordarte</h2>
+        </div>
+        
+        <div class="image-container">
+            <img src="fotos/nosotros-convertido-a-333x180.jpeg" alt="omg como me gustas coño">
+        </div>
+        
+        <div class="mystery-buttons-container">
+            <div class="mystery-button" data-type="mensaje">
+                <div class="mystery-overlay">?</div>
+                <div class="check-verde">✓</div>
+                <span class="button-text">Mensaje del Corazón</span>
+            </div>
+            <div class="mystery-button" data-type="imagen">
+                <div class="mystery-overlay">?</div>
+                <div class="check-verde">✓</div>
+                <span class="button-text">Recuerdo Especial</span>
+            </div>
+            <div class="mystery-button" data-type="audio">
+                <div class="mystery-overlay">?</div>
+                <div class="check-verde">✓</div>
+                <span class="button-text">Susurro de Amor</span>
+            </div>
+        </div>
+        
+        <div class="message-container" id="sorpresas-messageContainer">
+            <div class="message-title">Descubre las Sorpresas</div>
+            <div class="message-content">
+                Toca cada botón para revelar una sorpresa especial. Cada uno guarda algo único que preparé solo para ti.
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="sorpresas-resetBtn">Reiniciar</button>
+            <button class="nav-btn secreto hidden" id="sorpresas-mensajeSecretoBtn">Mensaje Secreto</button>
+        </div>
+    </div>
+
+    <script>
+        // Datos para Mis fotos favoritas de ti
+        const momentosMessages = [
+            {
+                title: "Tu si tienes una cara bella",
+                content: "Es increible que cada vez que te veo la carita tan linda que tienes SIEMPRE me dan ganas de darte muchisimos besitos, abrazos y decirte lo mucho que me gustas mi niña hermosa"
+            },
+            {
+                title: "Tu siendo linda jjj", 
+                content: "Me encanta esta foto pq te ves bien feliz acostaita con Otis asi bien chill bien lindos jjjj"
+            },
+            {
+                title: "Me encanta tu sonrisa ",
+                content: "Y me hace muy feliz escucharte reir, es increible lo contagiosa que es tu risa y lo linda que te ves sonriendo mi amor"
+            },
+            {
+                title: "Mi foto favorita",
+                content: "Que mas te digo de esta foto? me encanta la foto y me encantas tú jijijiji"
+            }
+        ];
+
+        // Mensajes secretos especiales
+        const mensajesSecretos = [
+            "💖 Eres la persona más especial que he conocido. Cada día a tu lado es un regalo que atesoro profundamente.",
+            "🌟 Tu sonrisa ilumina mis días de una manera que ninguna otra cosa puede. Eres mi luz en la oscuridad.",
+            "📝 Si tuviera que escribir todo lo que siento por ti, llenaría miles de páginas y aún me quedaría sin palabras para describir lo increíble que eres.",
+            "🌙 Cada noche, antes de dormir, pienso en ti y me siento la persona más afortunada del mundo por tenerte en mi vida.",
+            "🎶 Tu risa es la melodía más hermosa que he escuchado. Podría escucharte reír por siempre y nunca me cansaría.",
+            "💌 Eres la razón por la que creo en el amor verdadero. Contigo todo tiene sentido y cada momento es especial.",
+            "🌅 No hay lugar en el mundo donde me sienta más en casa que en tus brazos. Eres mi refugio y mi paz.",
+            "✨ Eres mi persona favorita para todo: para reír, para soñar, para vivir. No hay nadie con quien prefiera compartir mi vida."
+        ];
+
+        // Estado de la aplicación
+        let currentMomentosIndex = 0;
+        let revealedButtons = [];
+        let completionTimeout = null;
+
+        // Función para cambiar de sección
+        function changeSection(section) {
+            // Actualizar pestañas
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.nav-tab[data-section="${section}"]`).classList.add('active');
+            
+            // Actualizar secciones
+            document.querySelectorAll('.container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById(`${section}-section`).classList.add('active');
+        }
+
+        // Función para actualizar el contenido de Mis fotos favoritas de ti
+        function updateMomentosContent() {
+            const messageContainer = document.getElementById('momentos-messageContainer');
+            const messageTitle = messageContainer.querySelector('.message-title');
+            const messageContent = messageContainer.querySelector('.message-content');
+            
+            // Actualizar título y contenido
+            messageTitle.textContent = momentosMessages[currentMomentosIndex].title;
+            messageContent.textContent = momentosMessages[currentMomentosIndex].content;
+            
+            // OCULTAR TODAS LAS IMÁGENES y mostrar solo la activa
+            document.querySelectorAll('.momentos-img').forEach(img => {
+                img.classList.remove('active');
+            });
+            document.getElementById(`img-${currentMomentosIndex}`).classList.add('active');
+            
+            // Actualizar dots
+            const dots = document.querySelectorAll('#momentos-section .dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentMomentosIndex);
+            });
+            
+            // Scroll al inicio del contenido
+            messageContainer.scrollTop = 0;
+        }
+
+        // Función para navegar entre mensajes
+        function navigateMomentos(direction) {
+            if (direction === 'prev' && currentMomentosIndex > 0) {
+                currentMomentosIndex--;
+            } else if (direction === 'next' && currentMomentosIndex < momentosMessages.length - 1) {
+                currentMomentosIndex++;
+            }
+            
+            updateMomentosContent();
+        }
+
+        // Función para ir a un mensaje específico
+        function goToMessage(index) {
+            currentMomentosIndex = index;
+            updateMomentosContent();
+        }
+
+        // Función para obtener mensajes aleatorios
+        function getRandomMessage() {
+            const messages = [
+                "Cada día me doy cuenta de lo afortunado que soy por tenerte en mi vida. Eres mi sueño hecho realidad.",
+                "Tu risa es la melodía más hermosa que he escuchado. Podría escucharte reír por siempre.",
+                "Eres la razón por la que creo en el amor verdadero. Contigo todo tiene sentido.",
+                "No hay lugar en el mundo donde me sienta más en casa que en tus brazos.",
+                "Eres mi persona favorita para todo: para reír, para soñar, para vivir."
+            ];
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function getRandomAudioMessage() {
+            const audioMessages = [
+                "Tu voz es mi canción favorita. Cada palabra que dices es música para mis oídos.",
+                "Si el amor tuviera sonido, sonaría exactamente como tu risa.",
+                "Guardaré cada 'te amo' que me digas en el tesoro más preciado de mi corazón.",
+                "El silencio contigo es la conversación más bonita que puedo tener.",
+                "Tu forma de decir mi nombre es el sonido más dulce que existe."
+            ];
+            return audioMessages[Math.floor(Math.random() * audioMessages.length)];
+        }
+
+        // Función para mostrar el botón de mensaje secreto
+        function mostrarBotonMensajeSecreto() {
+            const botonSecreto = document.getElementById('sorpresas-mensajeSecretoBtn');
+            botonSecreto.classList.remove('hidden');
+        }
+
+        // Función para ocultar el botón de mensaje secreto
+        function ocultarBotonMensajeSecreto() {
+            const botonSecreto = document.getElementById('sorpresas-mensajeSecretoBtn');
+            botonSecreto.classList.add('hidden');
+        }
+
+        // Función para mostrar un mensaje secreto
+        function mostrarMensajeSecreto() {
+            const messageContainer = document.getElementById('sorpresas-messageContainer');
+            const messageTitle = messageContainer.querySelector('.message-title');
+            const messageContent = messageContainer.querySelector('.message-content');
+            
+            // Seleccionar un mensaje secreto aleatorio
+            const mensajeAleatorio = mensajesSecretos[Math.floor(Math.random() * mensajesSecretos.length)];
+            
+            messageTitle.textContent = '💫 Mensaje Ultra Secreto';
+            messageContent.textContent = mensajeAleatorio;
+            
+            // Agregar clase especial al contenedor
+            messageContainer.classList.add('special');
+        }
+
+        // Función para revelar un botón misterioso
+        function revealButton(buttonType) {
+            if (!revealedButtons.includes(buttonType)) {
+                revealedButtons.push(buttonType);
+            }
+            
+            const button = document.querySelector(`.mystery-button[data-type="${buttonType}"]`);
+            button.classList.add('revealed');
+            
+            const messageContainer = document.getElementById('sorpresas-messageContainer');
+            const messageTitle = messageContainer.querySelector('.message-title');
+            const messageContent = messageContainer.querySelector('.message-content');
+            
+            let title = '';
+            let content = '';
+            
+            switch(buttonType) {
+                case 'mensaje':
+                    title = '💌 Mensaje Secreto Para Ti';
+                    content = getRandomMessage();
+                    break;
+                case 'imagen':
+                    title = '📸 Nuestro Momento Especial';
+                    content = `Una foto que captura lo especial que eres para mí. Cada vez que la veo, recuerdo por qué te amo tanto.`;
+                    break;
+                case 'audio':
+                    title = '🎵 Palabras Desde el Corazón';
+                    content = getRandomAudioMessage();
+                    break;
+            }
+            
+            messageTitle.textContent = title;
+            messageContent.textContent = content;
+            
+            // Si todos los botones están revelados, mostrar mensaje especial y botón secreto
+            if (revealedButtons.length === 3) {
+                // Limpiar timeout anterior si existe
+                if (completionTimeout) {
+                    clearTimeout(completionTimeout);
+                }
+                
+                // Esperar 4 segundos antes de mostrar el mensaje de finalización
+                completionTimeout = setTimeout(() => {
+                    showSpecialCompletionMessage();
+                    mostrarBotonMensajeSecreto();
+                }, 4000); // 4 segundos para leer el mensaje de la tercera sorpresa
+            }
+        }
+
+        function showSpecialCompletionMessage() {
+            const messageContainer = document.getElementById('sorpresas-messageContainer');
+            const messageTitle = messageContainer.querySelector('.message-title');
+            const messageContent = messageContainer.querySelector('.message-content');
+            
+            messageTitle.textContent = '🎉 ¡Has Descubierto Todas las Sorpresas!';
+            messageContent.textContent = 'Eres la persona más increíble que he conocido. Cada sorpresa es solo un pequeño reflejo de todo lo que siento por ti. Te amo más de lo que las palabras pueden expresar. 💖';
+            
+            // Agregar clase especial al contenedor de mensajes
+            messageContainer.classList.add('special');
+        }
+
+        // Función para reiniciar las sorpresas
+        function resetSorpresas() {
+            revealedButtons = [];
+            document.querySelectorAll('.mystery-button').forEach(button => {
+                button.classList.remove('revealed');
+            });
+            
+            const messageContainer = document.getElementById('sorpresas-messageContainer');
+            const messageTitle = messageContainer.querySelector('.message-title');
+            const messageContent = messageContainer.querySelector('.message-content');
+            
+            messageTitle.textContent = "Descubre las Sorpresas";
+            messageContent.textContent = "Toca cada botón para revelar una sorpresa especial. Cada uno guarda algo único que preparé solo para ti.";
+            
+            // Remover clase especial
+            messageContainer.classList.remove('special');
+            
+            // Ocultar el botón de mensaje secreto
+            ocultarBotonMensajeSecreto();
+            
+            // Limpiar timeout si existe
+            if (completionTimeout) {
+                clearTimeout(completionTimeout);
+                completionTimeout = null;
+            }
+        }
+
+        // Inicialización de eventos
+        function initializeEvents() {
+            // Eventos para las pestañas de navegación
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    changeSection(tab.dataset.section);
+                });
+            });
+            
+            // Eventos para los botones de anterior/siguiente de momentos
+            document.getElementById('momentos-prevBtn').addEventListener('click', () => navigateMomentos('prev'));
+            document.getElementById('momentos-nextBtn').addEventListener('click', () => navigateMomentos('next'));
+            
+            // Eventos para los dots de momentos
+            document.querySelectorAll('#momentos-section .dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    goToMessage(index);
+                });
+            });
+            
+            // Eventos para los botones misteriosos
+            document.querySelectorAll('.mystery-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const buttonType = button.dataset.type;
+                    revealButton(buttonType);
+                });
+            });
+            
+            // Evento para el botón de reiniciar
+            document.getElementById('sorpresas-resetBtn').addEventListener('click', resetSorpresas);
+            
+            // Evento para el botón de mensaje secreto
+            document.getElementById('sorpresas-mensajeSecretoBtn').addEventListener('click', mostrarMensajeSecreto);
+        }
+
+        // Inicializar la aplicación
+        function initializeApp() {
+            initializeEvents();
+            updateMomentosContent(); // Mostrar contenido inicial
+        }
+
+        // Ejecutar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
