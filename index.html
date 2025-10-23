@@ -489,14 +489,14 @@
 
         // Mensajes secretos especiales
         const mensajesSecretos = [
-            "💖 Eres la persona más especial que he conocido. Cada día a tu lado es un regalo que atesoro profundamente.",
-            "🌟 Tu sonrisa ilumina mis días de una manera que ninguna otra cosa puede. Eres mi luz en la oscuridad.",
-            "📝 Si tuviera que escribir todo lo que siento por ti, llenaría miles de páginas y aún me quedaría sin palabras para describir lo increíble que eres.",
-            "🌙 Cada noche, antes de dormir, pienso en ti y me siento la persona más afortunada del mundo por tenerte en mi vida.",
-            "🎶 Tu risa es la melodía más hermosa que he escuchado. Podría escucharte reír por siempre y nunca me cansaría.",
-            "💌 Eres la razón por la que creo en el amor verdadero. Contigo todo tiene sentido y cada momento es especial.",
-            "🌅 No hay lugar en el mundo donde me sienta más en casa que en tus brazos. Eres mi refugio y mi paz.",
-            "✨ Eres mi persona favorita para todo: para reír, para soñar, para vivir. No hay nadie con quien prefiera compartir mi vida."
+            "Te amo un mundo entero mi amor, espero que estemos juntos mucho tiempo.",
+            "Me encanta tu sonrisa, es inevitable que me ponga feliz cuando te veo sonreir",
+            "Es chistoso que la primera vez que te estuve escribiendo una carta, pase una hora escribiendo como un webon para que lo pudieras entender.",
+            "Estoy muy agradecido de que me hayas aceptado en tu vida mi amor, te amo muchisimo",
+            "basta de los 'te amo' sabias que la primera vez que formatie mi computadora fue pq quise piratear el minecraft de telefono pero en mi compu? que bobo jajajajaj.",
+            "Siempre me siento en paz y felicidad cuando estoy contigo, es increible que siempre te quiera abrazar y decir lo mucho que me gustas.",
+            "Sabia que tobias este año cumple 13 años? estas invitado a su cumpleaños",
+            "los mensajes estan puestos al azar, asi q hola t amo muamuamua."
         ];
 
         // Estado de la aplicación
@@ -565,22 +565,22 @@
         // Función para obtener mensajes aleatorios
         function getRandomMessage() {
             const messages = [
-                "Cada día me doy cuenta de lo afortunado que soy por tenerte en mi vida. Eres mi sueño hecho realidad.",
-                "Tu risa es la melodía más hermosa que he escuchado. Podría escucharte reír por siempre.",
-                "Eres la razón por la que creo en el amor verdadero. Contigo todo tiene sentido.",
-                "No hay lugar en el mundo donde me sienta más en casa que en tus brazos.",
-                "Eres mi persona favorita para todo: para reír, para soñar, para vivir."
+                "todos los mensajes son al azar, sabias que me gustan muchas las gomitas? pero mas me gustas tu miamor .",
+                "arremangala arrepujala arremangala arrepujala arremangala arrepujala arremangala arrepujala arremangala arrepujala arremangala arrepujala.",
+                "YA NO SE QUE PONER, T AMO MUJER.",
+                "AUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU.",
+                "currucos, adiccion o necesidad? tema de discusion."
             ];
             return messages[Math.floor(Math.random() * messages.length)];
         }
 
         function getRandomAudioMessage() {
             const audioMessages = [
-                "Tu voz es mi canción favorita. Cada palabra que dices es música para mis oídos.",
-                "Si el amor tuviera sonido, sonaría exactamente como tu risa.",
-                "Guardaré cada 'te amo' que me digas en el tesoro más preciado de mi corazón.",
-                "El silencio contigo es la conversación más bonita que puedo tener.",
-                "Tu forma de decir mi nombre es el sonido más dulce que existe."
+                "spam de mensajes cursis.",
+                "wiwiwiwiwiwiiwiwiwiwiwiw",
+                "bleblebleblebleblebleble.",
+                "te lo juro q ya no se q poner.",
+                "jijijijijijij muamuamuamuamuamua."
             ];
             return audioMessages[Math.floor(Math.random() * audioMessages.length)];
         }
@@ -631,15 +631,15 @@
             
             switch(buttonType) {
                 case 'mensaje':
-                    title = '💌 Mensaje Secreto Para Ti';
+                    title = 'Este e un mensaje';
                     content = getRandomMessage();
                     break;
                 case 'imagen':
-                    title = '📸 Nuestro Momento Especial';
-                    content = `Una foto que captura lo especial que eres para mí. Cada vez que la veo, recuerdo por qué te amo tanto.`;
+                    title = 'este e otro mensaje';
+                    content = `juajuajuajuajuajuajuajuaajujauaujuajuaj estoy cayendo en la locura haciendo esto.`;
                     break;
                 case 'audio':
-                    title = '🎵 Palabras Desde el Corazón';
+                    title = 'omg un tercer mensaje';
                     content = getRandomAudioMessage();
                     break;
             }
